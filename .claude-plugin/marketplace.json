@@ -1,0 +1,87 @@
+{
+  "name": "duckdb-extension-skills",
+  "description": "Aggregated Claude Code plugin marketplace for DuckDB extensions — verified, source-checked skills from extension maintainers. One marketplace, every DuckDB extension skill.",
+  "owner": {
+    "name": "alitrack",
+    "url": "https://github.com/alitrack"
+  },
+  "plugins": [
+    {
+      "name": "duckdb-skills",
+      "description": "[Official DuckDB team] Read any data file, attach and query DuckDB databases, search docs, install extensions.",
+      "source": { "source": "github", "repo": "duckdb/duckdb-skills" },
+      "homepage": "https://github.com/duckdb/duckdb-skills",
+      "category": "data"
+    },
+    {
+      "name": "duckdb-luajit",
+      "description": "LuaJIT scripting in SQL: UDFs, table functions, 40+ libs (incremental/SCD2, CN formats: e-invoice/OFD/TDX, entity resolve, privacy).",
+      "source": { "source": "git-subdir", "url": "alitrack/duckdb-luajit", "path": "plugins/duckdb-luajit" },
+      "homepage": "https://github.com/alitrack/duckdb-luajit",
+      "category": "data"
+    },
+    {
+      "name": "duckdb-dq",
+      "description": "Data quality in SQL: expect_* assertions with JSON rule sets, profiling, suggested rules, persisted reports.",
+      "source": { "source": "git-subdir", "url": "alitrack/duckdb_dq", "path": "plugins/duckdb-dq" },
+      "homepage": "https://github.com/alitrack/duckdb_dq",
+      "category": "data"
+    },
+    {
+      "name": "duckdb-raster",
+      "description": "GeoTIFF raster I/O and S2 cell math for spatial analytics without leaving SQL.",
+      "source": { "source": "git-subdir", "url": "alitrack/duckdb-raster", "path": "plugins/duckdb-raster" },
+      "homepage": "https://github.com/alitrack/duckdb-raster",
+      "category": "data"
+    },
+    {
+      "name": "duckdb-ml",
+      "description": "Train and score ML models in SQL: logistic/cox/kaplan_meier and 30+ more algorithms, vector output support.",
+      "source": { "source": "git-subdir", "url": "alitrack/duckdb-ml", "path": "plugins/duckdb-ml" },
+      "homepage": "https://github.com/alitrack/duckdb-ml",
+      "category": "data"
+    },
+    {
+      "name": "duckdb-orc",
+      "description": "Read Apache ORC files natively in DuckDB.",
+      "source": { "source": "git-subdir", "url": "alitrack/duckdb_orc", "path": "plugins/duckdb-orc" },
+      "homepage": "https://github.com/alitrack/duckdb_orc",
+      "category": "data"
+    },
+    {
+      "name": "duckdb-petgraph",
+      "description": "Graph algorithms in SQL: PageRank, triangles, clustering, community detection on edge tables.",
+      "source": { "source": "git-subdir", "url": "alitrack/duckdb_petgraph", "path": "plugins/duckdb-petgraph" },
+      "homepage": "https://github.com/alitrack/duckdb_petgraph",
+      "category": "data"
+    },
+    {
+      "name": "duckdb-turbovec",
+      "description": "Compressed vector search (ANN) with TurboQuant — embeddings without a vector database.",
+      "source": { "source": "git-subdir", "url": "alitrack/duckdb_turbovec", "path": "plugins/duckdb-turbovec" },
+      "homepage": "https://github.com/alitrack/duckdb_turbovec",
+      "category": "data"
+    },
+    {
+      "name": "duckdb-python-udf",
+      "description": "Persistent Python UDFs in DuckDB — register once, reuse across sessions (DuckDB 1.5.4+).",
+      "source": { "source": "git-subdir", "url": "alitrack/duckdb-python", "path": "plugins/duckdb-python-udf" },
+      "homepage": "https://github.com/alitrack/duckdb-python",
+      "category": "data"
+    },
+    {
+      "name": "anofox-forecast",
+      "description": "[DataZoo] Time-series forecasting in SQL: 36 models & ensembles, backtesting, seasonality/changepoint detection.",
+      "source": { "source": "git-subdir", "url": "DataZooDE/anofox-forecast", "path": "plugins/anofox-forecast" },
+      "homepage": "https://github.com/DataZooDE/anofox-forecast",
+      "category": "data"
+    },
+    {
+      "name": "anofox-statistics",
+      "description": "[DataZoo] Statistical regression and inference in SQL: OLS/robust/GLM/AFT/mixed-effects, hypothesis tests, diagnostics.",
+      "source": { "source": "git-subdir", "url": "DataZooDE/anofox-statistics", "path": "plugins/anofox-statistics" },
+      "homepage": "https://github.com/DataZooDE/anofox-statistics",
+      "category": "data"
+    }
+  ]
+}

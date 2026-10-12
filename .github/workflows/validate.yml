@@ -1,0 +1,80 @@
+name: Validate marketplace
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate marketplace.json structure
+        run: |
+          python3 - <<'EOF'
+          import json, sys, urllib.request
+
+          with open('.claude-plugin/marketplace.json') as f:
+              m = json.load(f)
+
+          assert m.get('name'), 'missing marketplace name'
+          assert m.get('owner', {}).get('name'), 'missing owner'
+          plugins = m.get('plugins', [])
+          assert plugins, 'no plugins listed'
+
+          names = set()
+          for p in plugins:
+              assert p.get('name'), f'plugin entry missing name: {p}'
+              assert p['name'] not in names, f'duplicate entry name: {p["name"]}'
+              names.add(p['name'])
+              src = p.get('source')
+              assert src, f'{p["name"]}: missing source'
+              if isinstance(src, str):
+                  assert not src.startswith('..'), f'{p["name"]}: path escapes marketplace root'
+              else:
+                  st = src.get('source')
+                  assert st in ('github', 'git-subdir', 'url', 'archive', 'npm', 'command'), \
+                      f'{p["name"]}: unknown source type {st}'
+                  if st == 'github':
+                      assert src.get('repo'), f'{p["name"]}: github source missing repo'
+                  if st == 'git-subdir':
+                      assert src.get('url') and src.get('path'), f'{p["name"]}: git-subdir needs url+path'
+
+          print(f'OK: {len(plugins)} plugin entries validated')
+          EOF
+
+      - name: Check remote sources are reachable (default branch)
+        run: |
+          python3 - <<'EOF'
+          import json, urllib.request, sys
+
+          with open('.claude-plugin/marketplace.json') as f:
+              m = json.load(f)
+
+          failures = []
+          for p in m['plugins']:
+              src = p['source']
+              if isinstance(src, dict) and src.get('source') == 'github':
+                  repo = src['repo']
+              elif isinstance(src, dict) and src.get('source') == 'git-subdir':
+                  repo = src['url']
+              else:
+                  continue
+              if '/' not in repo or repo.startswith('http'):
+                  continue  # raw urls, skip
+              url = f'https://api.github.com/repos/{repo}'
+              req = urllib.request.Request(url, headers={'User-Agent': 'marketplace-ci'})
+              try:
+                  code = urllib.request.urlopen(req, timeout=30).getcode()
+                  print(f'  {repo}: {code}')
+              except Exception as e:
+                  failures.append((repo, str(e)[:80]))
+
+          if failures:
+              for r, e in failures:
+                  print(f'FAIL {r}: {e}', file=sys.stderr)
+              sys.exit(1)
+          print('All remote sources reachable')
+          EOF
